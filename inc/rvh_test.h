@@ -128,6 +128,14 @@ extern size_t test_table_size;
         if(!(cond)) { printf("\n\t("); printf(""__VA_ARGS__); printf(")"); }\
         printf("\n");\
     }\
+    /* Not sure why, you can also replace this with
+        asm volatile("": : :"memory");
+        or just a printf,
+       but if you don't have this line, test_status will be 0
+       test is passed, but it will be reported as FAILED
+
+       Update: you can also remove this line, and use -O1 */ \
+    asm volatile("fence");\
     test_status = test_status && cond;\
     /*if(!test_status) goto failed; /**/\
 }
