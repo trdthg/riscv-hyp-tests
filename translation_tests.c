@@ -25,18 +25,18 @@ bool two_stage_translation(){
     write64(addr1, 0x11);
     write64(addr2, 0x22);
 
+    hspt_init();
+    hpt_init();
+    vspt_init();
     /**
      * Setup hyp page_tables.
      */
     goto_priv(PRIV_HS);
-    hspt_init();
-    hpt_init();
 
     /**
      * Setup guest page tables.
      */
     goto_priv(PRIV_VS);
-    vspt_init();
 
     uint64_t data1 = read64(vaddr1);
     uint64_t data2 = read64(vaddr2);
@@ -139,6 +139,9 @@ bool second_stage_only_translation(){
     TEST_ASSERT("vs gets right values", excpt.triggered == false && check1 && check2);
 
     hpt_switch();
+    goto_priv(PRIV_M);
+    hfence_gvma();
+    goto_priv(PRIV_VS);
     sfence();
     TEST_SETUP_EXCEPT();
     check1 = read64(vaddr1) == 0x22;
