@@ -1,5 +1,12 @@
 # RISCV-HYP-TESTS
-## About 
+
+The origin repo [josecm/riscv-hyp-tests](https://github.com/josecm/riscv-hyp-tests) use syscall, and [defermelowie/riscv-hyp-tests](https://github.com/defermelowie/riscv-hyp-tests) \(sail branch\) replace it with htif to support sail-model
+
+This fork fixed some tests and try to add more tests
+
+---
+
+## About
 This repository hosts unit tests for riscv hypervisor extension.
 
 Testing is done by executing bare metal applications, which *set up the environment at different privilege levels*, *execute the testing code or trigger traps* and *check the execution results and processor status* to determine if specific features of the target platform is compliant with the hypervisor extension specification.
